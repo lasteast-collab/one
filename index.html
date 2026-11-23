@@ -397,6 +397,24 @@ input[type=color].color{width:38px;height:32px;border:1px solid var(--line);bord
 .player.immersive .p-peek{display:block}
 @media (max-width:640px){.p-bar .p-back span,.p-bar .p-back img,#pFav{display:none}.p-bar{gap:2px}.p-bar .p-title{justify-content:flex-start}.p-bar .p-btn.hide-sm{display:none}}
 
+/* admin gating */
+body:not(.admin) .admin-only{display:none!important}
+body.admin .visitor-only{display:none!important}
+.avatar{position:relative}
+.avatar .adm-dot{position:absolute;right:-4px;bottom:-4px;width:16px;height:16px;border-radius:50%;background:#16a34a;border:2px solid #000;display:none;place-items:center}
+.avatar .adm-dot svg{width:9px;height:9px;stroke:#fff;stroke-width:3}
+body.admin .avatar .adm-dot{display:grid}
+.admin-bar{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:150;display:none;align-items:center;gap:10px;padding:7px 8px 7px 14px;border-radius:99px;background:rgba(20,20,20,.92);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:13px;font-weight:600;box-shadow:var(--shadow);backdrop-filter:blur(10px)}
+body.admin .admin-bar{display:flex}
+.admin-bar .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px #22c55e}
+.admin-bar button{padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.1);font-size:12.5px;font-weight:600}
+.admin-bar button:hover{background:rgba(255,255,255,.2)}
+.lock-ico{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent-2);margin-bottom:4px}
+.lock-ico svg{width:28px;height:28px}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.err{color:#ff6b6b;font-size:13px;min-height:18px;margin-top:6px}
+
 /* toasts */
 .toasts{position:fixed;left:50%;bottom:max(24px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:900;display:grid;gap:10px;justify-items:center;pointer-events:none;width:min(520px,92vw)}
 .toast{pointer-events:auto;display:flex;align-items:center;gap:12px;background:rgba(22,22,22,.96);color:#fff;border:1px solid rgba(255,255,255,.12);border-left:3px solid var(--accent);padding:12px 16px;border-radius:9px;box-shadow:var(--shadow);font-size:14px;animation:toastIn .4s cubic-bezier(.2,.8,.2,1);backdrop-filter:blur(8px)}
@@ -494,20 +512,23 @@ input[type=color].color{width:38px;height:32px;border:1px solid var(--line);bord
         <input id="searchInput" type="search" placeholder="Apps, categories, tags…" autocomplete="off" aria-label="Search applications">
         <kbd>Ctrl K</kbd>
       </div>
-      <button class="icon-btn" id="addBtn" aria-label="Add application" title="Add application"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-      <button class="avatar" id="profileBtn" aria-label="Profile and settings" aria-haspopup="true">L</button>
+      <button class="icon-btn admin-only" id="addBtn" aria-label="Add application" title="Add application"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="avatar" id="profileBtn" aria-label="Profile and settings" aria-haspopup="true">L<span class="adm-dot" title="Admin mode"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg></span></button>
     </div>
     <div class="dropdown mobile-menu" id="mobileMenu"></div>
     <div class="dropdown" id="profileMenu">
-      <button data-act="manage"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Manage Platform</button>
-      <button data-act="add"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add Application</button>
-      <button data-act="hero"><svg class="i" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>Choose Featured Hero</button>
-      <button data-act="cats"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Manage Categories</button>
-      <hr>
+      <button class="admin-only" data-act="manage"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Manage Platform</button>
+      <button class="admin-only" data-act="add"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add Application</button>
+      <button class="admin-only" data-act="hero"><svg class="i" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>Choose Featured Hero</button>
+      <button class="admin-only" data-act="cats"><svg class="i" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Manage Categories</button>
+      <hr class="admin-only">
       <button data-act="settings"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</button>
       <button data-act="theme"><svg class="i" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span id="themeLbl">Light mode</span></button>
-      <button data-act="export"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export Data</button>
-      <button data-act="import"><svg class="i" viewBox="0 0 24 24"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>Import Data</button>
+      <hr>
+      <button class="visitor-only" data-act="login"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Admin login</button>
+      <button class="admin-only" data-act="logout"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Lock admin mode</button>
+      <button class="admin-only" data-act="export"><svg class="i" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Export Data</button>
+      <button class="admin-only" data-act="import"><svg class="i" viewBox="0 0 24 24"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>Import Data</button>
     </div>
   </nav>
 
@@ -516,9 +537,10 @@ input[type=color].color{width:38px;height:32px;border:1px solid var(--line);bord
   <footer>
     <img id="footLogo" alt="LASTEAST">
     <span>Stream your software.</span>
-    <button data-act="manage">Manage</button>
+    <button class="admin-only" data-act="manage">Manage</button>
     <button data-act="settings">Settings</button>
-    <button data-act="export">Export</button>
+    <button class="admin-only" data-act="export">Export</button>
+    <button class="visitor-only" data-act="login">Admin</button>
     <button data-act="replay">Replay intro</button>
     <span style="margin-left:auto">© <span id="yr"></span> LASTEAST</span>
   </footer>
@@ -539,6 +561,7 @@ input[type=color].color{width:38px;height:32px;border:1px solid var(--line);bord
   </div>
 </div>
 
+<div class="admin-bar"><span class="dot"></span>Admin mode<button data-act="manage">Manage</button><button data-act="add">+ Add app</button><button data-act="logout">Lock</button></div>
 <div class="toasts" id="toasts"></div>
 <input type="file" id="importFile" accept="application/json,.json" hidden>
 
@@ -746,6 +769,45 @@ const cat = id => S.categories.find(c => c.id === id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $ = (s, r=document) => r.querySelector(s);
 const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+/* ======================= ADMIN ======================= */
+// Only a SHA-256 hash of the admin password is stored in this file, never the password itself.
+const ADMIN_HASH = '861c5ba0dc1a5c683424e79865a24a867e36e5e0dbd8ea355b7413531555aabe';
+const ADMIN_SALT = 'lasteast-admin:';
+function sha256(str) {
+  const ascii = unescape(encodeURIComponent(str));
+  const rr = (v, a) => (v >>> a) | (v << (32 - a));
+  const maxWord = Math.pow(2, 32); const bitLen = ascii.length * 8;
+  let hash = [], k = [], pc = 0; const comp = {};
+  for (let c = 2; pc < 64; c++) { if (!comp[c]) { for (let i = 0; i < 313; i += c) comp[i] = c; hash[pc] = (Math.pow(c, .5) * maxWord) | 0; k[pc++] = (Math.pow(c, 1/3) * maxWord) | 0; } }
+  hash = hash.slice(0, 8);
+  let m = ascii + '\x80'; while (m.length % 64 - 56) m += '\x00';
+  const words = [];
+  for (let i = 0; i < m.length; i++) words[i >> 2] |= m.charCodeAt(i) << ((3 - i) % 4) * 8;
+  words[words.length] = (bitLen / maxWord) | 0; words[words.length] = bitLen;
+  for (let j = 0; j < words.length;) {
+    const w = words.slice(j, j += 16); const old = hash; hash = hash.slice(0, 8);
+    for (let i = 0; i < 64; i++) {
+      const w15 = w[i-15], w2 = w[i-2], a = hash[0], e = hash[4];
+      const t1 = hash[7] + (rr(e,6) ^ rr(e,11) ^ rr(e,25)) + ((e & hash[5]) ^ (~e & hash[6])) + k[i]
+        + (w[i] = i < 16 ? w[i] : (w[i-16] + (rr(w15,7) ^ rr(w15,18) ^ (w15 >>> 3)) + w[i-7] + (rr(w2,17) ^ rr(w2,19) ^ (w2 >>> 10))) | 0);
+      const t2 = (rr(a,2) ^ rr(a,13) ^ rr(a,22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+      hash = [(t1 + t2) | 0].concat(hash); hash[4] = (hash[4] + t1) | 0;
+    }
+    for (let i = 0; i < 8; i++) hash[i] = (hash[i] + old[i]) | 0;
+  }
+  let out = ''; for (let i = 0; i < 8; i++) for (let j = 3; j + 1; j--) { const b = (hash[i] >> (j * 8)) & 255; out += (b < 16 ? '0' : '') + b.toString(16); }
+  return out;
+}
+let isAdmin = false;
+try { isAdmin = sessionStorage.getItem('lasteast:admin') === ADMIN_HASH; } catch(_) {}
+const ADMIN_ACTS = ['manage','cats','hero','add','export','import','reset'];
+function setAdmin(on) {
+  isAdmin = !!on;
+  try { if (on) sessionStorage.setItem('lasteast:admin', ADMIN_HASH); else sessionStorage.removeItem('lasteast:admin'); } catch(_) {}
+  document.body.classList.toggle('admin', isAdmin);
+}
+function requireAdmin(then) { if (isAdmin) return true; openLogin(then); return false; }
 
 /* ======================= ARTWORK GENERATOR ======================= */
 function rng(seedStr) {
@@ -1055,7 +1117,7 @@ function renderHome() {
   return (S.apps.length ? heroHTML() : '') + `<div class="rows${S.apps.length?'':' no-hero'}">${rows}</div>`;
 }
 function emptyHTML(icon, h, p, add) {
-  return `<div class="empty"><div class="big">${icon}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${add?`<p style="margin-top:20px"><button class="btn btn-accent" data-act="add">${I.plus} Add Application</button></p>`:''}</div>`;
+  return `<div class="empty"><div class="big">${icon}</div><h3>${esc(h)}</h3><p>${esc(p)}</p>${add?`<p class="admin-only" style="margin-top:20px"><button class="btn btn-accent" data-act="add">${I.plus} Add Application</button></p>`:''}</div>`;
 }
 function gridPage(title, sub, list, extra='') {
   return `<div class="rows no-hero"><div class="page-head reveal"><div><h1>${esc(title)}</h1>${sub?`<p>${esc(sub)}</p>`:''}</div><div class="spacer"></div>${extra}</div>
@@ -1091,12 +1153,12 @@ function render() {
     html = `<div class="rows no-hero"><div class="page-head"><div><h1 style="font-size:clamp(22px,3vw,34px)">Results for “${esc(searchQ.trim())}”</h1><p>${res.length} ${res.length===1?'application':'applications'} found</p></div></div>
       ${res.length ? `<div class="grid">${res.map(a => cardHTML(a)).join('')}</div>` : emptyHTML('🔍','No matches','Try a different name, category or tag.')}</div>`;
   } else if (view.name === 'home') html = renderHome();
-  else if (view.name === 'all') html = gridPage('My Apps', `All ${S.apps.length} applications on your platform`, S.apps, `<button class="btn btn-accent btn-sm" data-act="add">${I.plus} Add</button><button class="btn btn-line btn-sm" data-act="manage">Manage</button>`);
+  else if (view.name === 'all') html = gridPage('My Apps', `All ${S.apps.length} applications on your platform`, S.apps, `<span class="admin-only" style="display:flex;gap:10px"><button class="btn btn-accent btn-sm" data-act="add">${I.plus} Add</button><button class="btn btn-line btn-sm" data-act="manage">Manage</button></span>`);
   else if (view.name === 'favs') html = gridPage('Favorites', 'Your saved applications', S.apps.filter(a => a.fav));
   else if (view.name === 'cat') {
     const c = cat(view.arg);
     if (!c) { view = {name:'home'}; return render(); }
-    html = gridPage(c.name, c.desc, S.apps.filter(a => a.category === c.id), `<button class="btn btn-accent btn-sm" data-act="add" data-cat="${esc(c.id)}">${I.plus} Add to ${esc(c.nav||c.name)}</button>`);
+    html = gridPage(c.name, c.desc, S.apps.filter(a => a.category === c.id), `<button class="btn btn-accent btn-sm admin-only" data-act="add" data-cat="${esc(c.id)}">${I.plus} Add to ${esc(c.nav||c.name)}</button>`);
   }
   const prevHero = lastHeroKey;
   m.innerHTML = html;
@@ -1252,7 +1314,7 @@ function openDetails(id, refresh) {
         <div class="hero-actions">
           <button class="btn btn-play" data-a="launch">${I.play} ${isReady(a)?'Launch':esc(STATUS_LBL[a.status])}</button>
           <button class="round-btn ${a.fav?'on':''}" data-a="fav" aria-label="Favorite" title="${a.fav?'Remove from Favorites':'Add to Favorites'}">${a.fav?I.heartF:I.heart}</button>
-          <button class="round-btn" data-a="sethero" aria-label="Feature in hero" title="Feature in hero">${I.hero}</button>
+          <button class="round-btn admin-only" data-a="sethero" aria-label="Feature in hero" title="Feature in hero">${I.hero}</button>
         </div>
       </div>
     </div>
@@ -1291,6 +1353,7 @@ async function fileToDataURL(file, maxW, maxH, type='image/jpeg', q=.84) {
   return cv.toDataURL(type, q);
 }
 function openEditor(id, presetCat) {
+  if (!requireAdmin(() => openEditor(id, presetCat))) return;
   const existing = id ? app(id) : null;
   const a = existing ? JSON.parse(JSON.stringify(existing)) : {
     id: uid(), name:'', url:'', description:'', category: presetCat || (view.name==='cat'?view.arg:(S.categories[0]||{}).id), status:'new', tags:[], features:[],
@@ -1381,6 +1444,7 @@ function openEditor(id, presetCat) {
   });
 }
 function removeApp(id) {
+  if (!isAdmin) return;
   const a = app(id); if (!a) return;
   S.apps = S.apps.filter(x => x.id !== id); S.recent = S.recent.filter(x => x !== id);
   if (S.settings.heroId === id) S.settings.heroId = (S.apps.find(x => x.featured) || S.apps[0] || {}).id || '';
@@ -1391,6 +1455,7 @@ function removeApp(id) {
 /* ---------- manage drawer ---------- */
 let manageOv = null, manageTab = 'apps', manageFilter = '';
 function openManage(tab) {
+  if (!requireAdmin(() => openManage(tab))) return;
   manageTab = tab || manageTab;
   if (manageOv && document.body.contains(manageOv)) { refreshManage(); return; }
   manageOv = openModal(`<button class="x-btn" data-close aria-label="Close">${I.x}</button>
@@ -1445,6 +1510,7 @@ function refreshManage() {
 function moveItem(arr, from, to) { const [x] = arr.splice(from, 1); arr.splice(to, 0, x); }
 async function manageClick(e) {
   const t = e.target;
+  if (!isAdmin) return;
   if (t.closest('[data-close]')) return closeModal(manageOv);
   const tab = t.closest('[data-tab]'); if (tab) { manageTab = tab.dataset.tab; return refreshManage(); }
   const pick = t.closest('[data-pick]'); if (pick) { e.stopPropagation(); S.settings.heroId = pick.dataset.pick; save(); refreshManage(); render(); toast(`${app(pick.dataset.pick).name} is now in the hero spotlight`); return; }
@@ -1522,6 +1588,37 @@ function setupDnD(root) {
   });
 }
 
+/* ---------- admin login ---------- */
+let loginFails = 0, loginLockUntil = 0;
+function openLogin(then) {
+  if (isAdmin) { if (then) then(); return; }
+  closeMenus();
+  const ov = openModal(`<button class="x-btn" data-close aria-label="Close">${I.x}</button>
+    <form class="m-body" id="loginForm" style="padding-top:34px;text-align:center;display:grid;justify-items:center;gap:10px" autocomplete="off">
+      <span class="lock-ico"><svg class="i" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+      <h2 style="font-size:24px;font-weight:800">Admin login</h2>
+      <p class="hint" style="max-width:320px">Only the platform admin can add, edit or remove apps.</p>
+      <input class="inp" id="adminPw" type="password" placeholder="Admin password" autocomplete="current-password" style="max-width:300px;text-align:center;margin-top:8px" autofocus>
+      <div class="err" id="loginErr"></div>
+      <button class="btn btn-accent" type="submit" style="min-width:180px">Unlock</button>
+    </form>`, 'sm');
+  ov.addEventListener('click', e => { if (e.target.closest('[data-close]')) closeModal(ov); });
+  $('#loginForm', ov).addEventListener('submit', e => {
+    e.preventDefault();
+    const inp = $('#adminPw', ov), err = $('#loginErr', ov);
+    const wait = Math.ceil((loginLockUntil - Date.now()) / 1000);
+    if (wait > 0) { err.textContent = `Too many attempts. Try again in ${wait}s.`; return; }
+    if (sha256(ADMIN_SALT + inp.value) === ADMIN_HASH) {
+      loginFails = 0; setAdmin(true); closeModal(ov); render(); toast('Admin mode unlocked');
+      if (then) setTimeout(then, 320);
+    } else {
+      loginFails++; if (loginFails >= 5) { loginLockUntil = Date.now() + 30000; loginFails = 0; }
+      err.textContent = 'Wrong password.'; inp.value = '';
+      const f = $('.modal', ov); f.classList.remove('shake'); void f.offsetWidth; f.classList.add('shake'); inp.focus();
+    }
+  });
+}
+
 /* ---------- settings ---------- */
 function openSettings() {
   const s = S.settings;
@@ -1543,12 +1640,16 @@ function openSettings() {
           <div class="swatches">${ACCENTS.map(c => `<button class="swatch ${s.accent===c?'on':''}" data-accent="${c}" style="background:${c}" aria-label="Accent ${c}"></button>`).join('')}<input type="color" class="color" data-accent-custom value="${esc(s.accent)}" aria-label="Custom accent"></div></div>
         <div class="toggle"><div class="t-txt"><b>Show empty rows</b><span>Display rows even when they have no apps yet</span></div><label class="switch"><input type="checkbox" data-s="showEmptyRows" ${s.showEmptyRows?'checked':''}><span></span></label></div>
       </div>
-      <div class="sect"><h3>Content</h3>
+      <div class="sect admin-only"><h3>Content</h3>
         <div class="btn-row"><button class="btn btn-line btn-sm" data-act="manage">Manage applications</button><button class="btn btn-line btn-sm" data-act="cats">Manage categories</button><button class="btn btn-line btn-sm" data-act="hero">Choose hero</button></div>
       </div>
-      <div class="sect"><h3>Data</h3>
+      <div class="sect admin-only"><h3>Data</h3>
         <p class="hint" style="margin-bottom:12px">Everything is saved in this browser automatically (${(new Blob([JSON.stringify(S)]).size/1024).toFixed(0)} KB used). Export a backup to move it to another device.</p>
         <div class="btn-row"><button class="btn btn-line btn-sm" data-act="export">${I.upload} Export JSON</button><button class="btn btn-line btn-sm" data-act="import">Import JSON</button><button class="btn btn-danger btn-sm" data-act="reset">Reset platform</button></div>
+      </div>
+      <div class="sect"><h3>Admin</h3>
+        <div class="visitor-only"><p class="hint" style="margin-bottom:12px">Adding, editing and removing apps is limited to the platform admin.</p><button class="btn btn-line btn-sm" data-act="login">Admin login</button></div>
+        <div class="admin-only"><p class="hint" style="margin-bottom:12px">You're signed in as admin in this tab.</p><button class="btn btn-line btn-sm" data-act="logout">Lock admin mode</button></div>
       </div>
     </div>`, 'sm');
   ov.querySelector('.modal').style.width = 'min(600px,100%)';
@@ -1572,6 +1673,7 @@ function applyTheme() {
 
 /* ---------- import / export / reset ---------- */
 function exportData() {
+  if (!requireAdmin(exportData)) return;
   const blob = new Blob([JSON.stringify(Object.assign({app:'LASTEAST', exported:new Date().toISOString()}, S), null, 2)], {type:'application/json'});
   const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
   a.download = `lasteast-backup-${new Date().toISOString().slice(0,10)}.json`; document.body.appendChild(a); a.click(); a.remove();
@@ -1579,7 +1681,7 @@ function exportData() {
   toast('Backup exported');
 }
 $('#importFile').addEventListener('change', async e => {
-  const file = e.target.files[0]; e.target.value = ''; if (!file) return;
+  const file = e.target.files[0]; e.target.value = ''; if (!file || !isAdmin) return;
   try {
     const d = JSON.parse(await file.text());
     if (!d || !Array.isArray(d.apps)) throw new Error('missing apps');
@@ -1590,6 +1692,7 @@ $('#importFile').addEventListener('change', async e => {
   } catch(err) { toast('That file is not a valid LASTEAST backup.'); }
 });
 async function resetAll() {
+  if (!requireAdmin(resetAll)) return;
   if (!await confirmBox('Reset platform?', 'All your applications, categories, favorites and settings will be replaced by the original starter content. Export a backup first if you want to keep them.', 'Reset everything')) return;
   S = seedData(); save(); applyTheme(); stack.slice().forEach(s => closeModal(s.ov)); view = {name:'home'}; render(); toast('Platform reset');
 }
@@ -1638,6 +1741,9 @@ function toast(msg, actLabel, act, ms=2800) {
 function closeMenus() { $('#profileMenu').classList.remove('open'); $('#mobileMenu').classList.remove('open'); }
 function doAct(act, el) {
   closeMenus();
+  if (act === 'login') return openLogin();
+  if (act === 'logout') { stack.slice().forEach(s => closeModal(s.ov)); setAdmin(false); render(); toast('Admin mode locked'); return; }
+  if (ADMIN_ACTS.includes(act) && !isAdmin) return openLogin(() => doAct(act, el));
   switch (act) {
     case 'manage': return openManage('apps');
     case 'cats': return openManage('cats');
@@ -1673,7 +1779,7 @@ document.addEventListener('click', e => {
     const a = app(detailsOpenId); const k = aBtn.dataset.a;
     if (k === 'launch') return launch(a);
     if (k === 'fav') return toggleFav(a);
-    if (k === 'sethero') { S.settings.heroId = a.id; save(); render(); toast(`${a.name} is now in the hero spotlight`); return; }
+    if (k === 'sethero') { if (!requireAdmin()) return; S.settings.heroId = a.id; save(); render(); toast(`${a.name} is now in the hero spotlight`); return; }
   }
   const card = t.closest('.card[data-id]');
   if (card && !t.closest('.hero-pick') && !t.closest('#edPrev')) { openDetails(card.dataset.id); return; }
@@ -1682,6 +1788,7 @@ document.addEventListener('click', e => {
 $('#profileBtn').addEventListener('click', e => { e.stopPropagation(); $('#mobileMenu').classList.remove('open'); $('#profileMenu').classList.toggle('open'); });
 $('#menuBtn').addEventListener('click', e => { e.stopPropagation(); $('#profileMenu').classList.remove('open'); $('#mobileMenu').classList.toggle('open'); });
 $('#addBtn').addEventListener('click', () => openEditor());
+setAdmin(isAdmin);
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if (introRunning) endIntro(); openSearch(); return; }
   if (e.key === 'Escape') { if (introRunning) return endIntro(); if (stack.length) return closeTop(); if (playerApp) { const pl = $('#player'); if (pl.classList.contains('immersive')) pl.classList.remove('immersive'); else closePlayer(); return; } closeMenus(); }
